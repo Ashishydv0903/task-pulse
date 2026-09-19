@@ -31,7 +31,9 @@ const userSchema = new mongoose.Schema(
       default: 'user'
     },
     resetPasswordToken: String,
-    resetPasswordExpire: Date
+    resetPasswordExpire: Date,
+    otpHash: String,
+    otpExpire: Date
   },
   {
     timestamps: true
@@ -53,21 +55,33 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// Generate and hash password reset token
+// Generate 6-digit numeric OTP and hash it for storage
 const crypto = require('crypto');
-userSchema.methods.getResetPasswordToken = function () {
-  // Generate random 20-byte token string
-  const resetToken = crypto.randomBytes(20).toString('hex');
 
-  // Hash token and set to resetPasswordToken field
+userSchema.methods.generateOTP = function () {
+  // Generate 6-digit numeric OTP code
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+  // Hash OTP and store in database
+  this.otpHash = crypto
+    .createHash('sha256')
+    .update(otp)
+    .digest('hex');
+
+  // Set 10-minute expiration
+  this.otpExpire = Date.now() + 10 * 60 * 1000;
+
+  return otp;
+};
+
+// Generate and hash password reset token (legacy fallback)
+userSchema.methods.getResetPasswordToken = function () {
+  const resetToken = crypto.randomBytes(20).toString('hex');
   this.resetPasswordToken = crypto
     .createHash('sha256')
     .update(resetToken)
     .digest('hex');
-
-  // Set expire time (10 minutes)
   this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
-
   return resetToken;
 };
 

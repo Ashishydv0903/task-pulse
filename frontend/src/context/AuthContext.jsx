@@ -68,8 +68,8 @@ export const AuthProvider = ({ children }) => {
     return res.data;
   };
 
-  const resetPassword = async (resetToken, password) => {
-    const res = await API.put(`/auth/reset-password/${resetToken}`, { password });
+  const resetPassword = async (email, otp, password) => {
+    const res = await API.put('/auth/reset-password', { email, otp, password });
     if (res.data.success) {
       const { token, ...userData } = res.data.data;
       setToken(token);

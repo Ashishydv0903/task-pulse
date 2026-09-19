@@ -7,7 +7,7 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [resetToken, setResetToken] = useState('');
+  const [otp, setOtp] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -32,11 +32,11 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     try {
       const res = await forgotPassword(email);
       if (res.success) {
-        setResetToken(res.resetToken);
-        setSuccessMsg('Password reset token generated! Click below to set your new password.');
+        setMode('reset');
+        setSuccessMsg(res.message || `A 6-digit OTP code has been sent to ${email}. Check your inbox!`);
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to request password reset.');
+      setError(err.response?.data?.message || 'Failed to request OTP code. Please check email address.');
     } finally {
       setSubmitting(false);
     }
@@ -44,15 +44,20 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
 
   const handleResetSubmit = async (e) => {
     e.preventDefault();
+    if (!otp || otp.trim().length !== 6) {
+      setError('Please enter the 6-digit OTP code sent to your email.');
+      return;
+    }
+
     setError('');
     setSuccessMsg('');
     setSubmitting(true);
 
     try {
-      await resetPass(resetToken, password);
+      await resetPass(email, otp, password);
       onClose();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to reset password. Token may be expired.');
+      setError(err.response?.data?.message || 'Invalid or expired OTP code.');
     } finally {
       setSubmitting(false);
     }
@@ -95,14 +100,14 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
             <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: 'var(--text-primary)' }}>
               {mode === 'login' && 'Welcome Back'}
               {mode === 'register' && 'Create Account'}
-              {mode === 'forgot' && 'Reset Your Password'}
-              {mode === 'reset' && 'Set New Password'}
+              {mode === 'forgot' && 'Send OTP Code'}
+              {mode === 'reset' && 'Verify 6-Digit OTP'}
             </h3>
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
               {mode === 'login' && 'Access your private workspace'}
               {mode === 'register' && 'Start organizing your tasks in seconds'}
-              {mode === 'forgot' && 'Enter your account email to receive a reset link'}
-              {mode === 'reset' && 'Enter your new password below'}
+              {mode === 'forgot' && 'Enter your email to receive a 6-digit OTP verification code'}
+              {mode === 'reset' && 'Enter the OTP code from your email to set a new password'}
             </p>
           </div>
           <button className="btn-icon" onClick={onClose}>
@@ -140,19 +145,9 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
 
         {successMsg && (
           <div style={{ background: 'var(--success-bg)', color: 'var(--success)', padding: '0.875rem 1rem', borderRadius: 'var(--radius-sm)', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', fontWeight: '700' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '600' }}>
               <CheckCircle size={18} /> {successMsg}
             </div>
-            {resetToken && (
-              <button
-                type="button"
-                className="btn btn-primary btn-sm"
-                style={{ width: '100%', marginTop: '0.5rem' }}
-                onClick={() => { setMode('reset'); setError(''); setSuccessMsg(''); }}
-              >
-                Set New Password Now ➔
-              </button>
-            )}
           </div>
         )}
 
@@ -176,7 +171,7 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
             </div>
           )}
 
-          {(mode === 'login' || mode === 'register' || mode === 'forgot') && (
+          {(mode === 'login' || mode === 'register' || mode === 'forgot' || mode === 'reset') && (
             <div className="form-group">
               <label className="form-label">Email Address</label>
               <div style={{ position: 'relative' }}>
@@ -188,7 +183,28 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   style={{ paddingLeft: '2.5rem' }}
+                  readOnly={mode === 'reset'}
                   required
+                />
+              </div>
+            </div>
+          )}
+
+          {mode === 'reset' && (
+            <div className="form-group">
+              <label className="form-label">6-Digit OTP Code *</label>
+              <div style={{ position: 'relative' }}>
+                <KeyRound size={18} color="var(--accent-primary)" style={{ position: 'absolute', left: '0.875rem', top: '50%', transform: 'translateY(-50%)' }} />
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. 849201"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  style={{ paddingLeft: '2.5rem', letterSpacing: '4px', fontSize: '1.1rem', fontWeight: '700' }}
+                  maxLength={6}
+                  required
+                  autoFocus
                 />
               </div>
             </div>
@@ -228,11 +244,11 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
             {submitting ? 'Processing...' : (
               mode === 'login' ? 'Log In to Workspace' :
               mode === 'register' ? 'Create Free Account' :
-              mode === 'forgot' ? 'Send Password Reset Token' : 'Update Password & Log In'
+              mode === 'forgot' ? 'Send 6-Digit OTP Email' : 'Verify OTP & Reset Password'
             )}
           </button>
 
-          {/* Quick Back to Login button for Forgot / Reset modes */}
+          {/* Back to Login button */}
           {(mode === 'forgot' || mode === 'reset') && (
             <button
               type="button"
