@@ -239,49 +239,96 @@ export function App() {
             )}
           </>
         ) : (
-          /* Unauthenticated Landing View */
-          <div style={{ padding: '4rem 0', textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
+          /* Customer-Centric Unauthenticated Landing View */
+          <div style={{ padding: '3rem 0', textAlign: 'center', maxWidth: '960px', margin: '0 auto' }}>
             
-            <span className="badge" style={{ background: 'var(--accent-gradient)', color: '#fff', padding: '0.4rem 1rem', marginBottom: '1.5rem', fontSize: '0.8125rem' }}>
-              Full-Stack MVC Node.js + Express + MongoDB Architecture
+            <span className="badge" style={{ background: 'var(--accent-gradient)', color: '#fff', padding: '0.5rem 1.25rem', marginBottom: '1.5rem', fontSize: '0.875rem', borderRadius: 'var(--radius-full)', letterSpacing: '0.02em', boxShadow: '0 4px 14px rgba(99, 102, 241, 0.35)' }}>
+              ✨ Smart Productivity Engine • Designed for Focus
             </span>
 
-            <h2 style={{ fontSize: '3rem', fontWeight: '800', lineHeight: 1.15, marginBottom: '1.25rem', letterSpacing: '-0.03em' }}>
-              User-Isolated Task Management Built for Teams
+            <h2 style={{ fontSize: '3.25rem', fontWeight: '800', lineHeight: 1.15, marginBottom: '1.25rem', letterSpacing: '-0.03em', background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--accent-primary) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              Organize Your Work. Master Your Focus.<br />Achieve More Every Day.
             </h2>
 
-            <p style={{ fontSize: '1.125rem', color: 'var(--text-secondary)', marginBottom: '2.5rem', lineHeight: 1.6 }}>
-              Manage tasks with user-based JWT access control, Express MVC controller separation, password hashing with bcrypt, and a responsive glassmorphism UI.
+            <p style={{ fontSize: '1.1875rem', color: 'var(--text-secondary)', marginBottom: '2.5rem', lineHeight: 1.6, maxWidth: '680px', margin: '0 auto 2.5rem' }}>
+              TaskPulse brings effortless clarity to your personal and team workflows. Track priorities, meet deadlines, and celebrate daily progress with an ultra-clean, intelligent workspace.
             </p>
 
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '4rem' }}>
-              <button className="btn btn-primary" style={{ padding: '0.875rem 2rem', fontSize: '1rem' }} onClick={() => handleOpenAuth('login')}>
-                <span>Sign In to Demo Workspace</span>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '3.5rem' }}>
+              <button className="btn btn-primary" style={{ padding: '0.875rem 2.25rem', fontSize: '1rem', borderRadius: 'var(--radius-md)' }} onClick={() => handleOpenAuth('register')}>
+                <span>Start Organizing Free</span>
                 <ArrowRight size={18} />
               </button>
-              <button className="btn btn-secondary" style={{ padding: '0.875rem 2rem', fontSize: '1rem' }} onClick={() => handleOpenAuth('register')}>
-                <span>Create New Account</span>
+              <button className="btn btn-secondary" style={{ padding: '0.875rem 2rem', fontSize: '1rem', borderRadius: 'var(--radius-md)' }} onClick={() => handleOpenAuth('login')}>
+                <span>⚡ Try Live Demo</span>
               </button>
             </div>
 
-            {/* Architecture Highlights */}
+            {/* Interactive Visual Dashboard Mockup Preview */}
+            <div className="glass-panel" style={{ padding: '2rem', marginBottom: '4rem', textAlign: 'left', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-color)', position: 'relative', overflow: 'hidden' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color-light)', paddingBottom: '1rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444' }} />
+                  <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#f59e0b' }} />
+                  <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#10b981' }} />
+                  <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginLeft: '0.5rem', fontWeight: '600' }}>TaskPulse Workspace Preview</span>
+                </div>
+                <span className="badge badge-completed">Live Interactive Workspace</span>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
+                <div style={{ background: 'var(--bg-secondary)', padding: '1rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color-light)' }}>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Tasks Completed Today</p>
+                  <h4 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--success)' }}>12 Tasks (85%)</h4>
+                </div>
+                <div style={{ background: 'var(--bg-secondary)', padding: '1rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color-light)' }}>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>High Priority Goal</p>
+                  <h4 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--accent-primary)' }}>Sprint Review</h4>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <div style={{ background: 'var(--bg-secondary)', padding: '0.875rem 1.25rem', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid var(--border-color-light)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'var(--success-bg)', border: '2px solid var(--success)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--success)', fontSize: '10px' }}>✓</div>
+                    <span style={{ fontWeight: '700', fontSize: '0.9375rem', textDecoration: 'line-through', color: 'var(--text-muted)' }}>Finalize Q4 Product Roadmap & Goals</span>
+                  </div>
+                  <span className="badge badge-completed">Done</span>
+                </div>
+                <div style={{ background: 'var(--bg-secondary)', padding: '0.875rem 1.25rem', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid var(--border-color-light)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid var(--accent-primary)' }} />
+                    <span style={{ fontWeight: '700', fontSize: '0.9375rem' }}>Review Design Assets with Marketing Team</span>
+                  </div>
+                  <span className="badge badge-in_progress">In Progress</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Customer Value Feature Cards */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem', textAlign: 'left' }}>
-              <div className="glass-panel" style={{ padding: '1.5rem' }}>
-                <ShieldCheck size={32} color="#6366f1" style={{ marginBottom: '0.75rem' }} />
-                <h4 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '0.25rem' }}>Secure JWT & Bcrypt</h4>
-                <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>Salted password hashing & stateless JWT token validation on all private routes.</p>
+              <div className="glass-panel" style={{ padding: '1.75rem' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'rgba(99, 102, 241, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
+                  <ShieldCheck size={26} color="#6366f1" />
+                </div>
+                <h4 style={{ fontSize: '1.125rem', fontWeight: '700', marginBottom: '0.5rem' }}>Private & Secure</h4>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>Your goals, notes, and milestones are strictly isolated and encrypted for your peace of mind.</p>
               </div>
 
-              <div className="glass-panel" style={{ padding: '1.5rem' }}>
-                <Database size={32} color="#10b981" style={{ marginBottom: '0.75rem' }} />
-                <h4 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '0.25rem' }}>Mongoose Schemas</h4>
-                <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>Structured User & Task relational MongoDB models with auto-indexing.</p>
+              <div className="glass-panel" style={{ padding: '1.75rem' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
+                  <Database size={26} color="#10b981" />
+                </div>
+                <h4 style={{ fontSize: '1.125rem', fontWeight: '700', marginBottom: '0.5rem' }}>Smart Priority Filters</h4>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>Search across projects, filter by urgency, and organize tasks by custom categories effortlessly.</p>
               </div>
 
-              <div className="glass-panel" style={{ padding: '1.5rem' }}>
-                <Layout size={32} color="#f59e0b" style={{ marginBottom: '0.75rem' }} />
-                <h4 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '0.25rem' }}>Strict MVC Pattern</h4>
-                <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>Clean separation between models, controllers, middleware, and views.</p>
+              <div className="glass-panel" style={{ padding: '1.75rem' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'rgba(245, 158, 11, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
+                  <Layout size={26} color="#f59e0b" />
+                </div>
+                <h4 style={{ fontSize: '1.125rem', fontWeight: '700', marginBottom: '0.5rem' }}>Real-time Analytics</h4>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>Visual KPI metric cards celebrate your daily progress and keep your team momentum high.</p>
               </div>
             </div>
 

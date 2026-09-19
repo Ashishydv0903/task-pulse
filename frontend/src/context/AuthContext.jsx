@@ -63,6 +63,23 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const forgotPassword = async (email) => {
+    const res = await API.post('/auth/forgot-password', { email });
+    return res.data;
+  };
+
+  const resetPassword = async (resetToken, password) => {
+    const res = await API.put(`/auth/reset-password/${resetToken}`, { password });
+    if (res.data.success) {
+      const { token, ...userData } = res.data.data;
+      setToken(token);
+      setUser(userData);
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(userData));
+      return res.data;
+    }
+  };
+
   const logout = () => {
     setToken(null);
     setUser(null);
@@ -83,6 +100,8 @@ export const AuthProvider = ({ children }) => {
         theme,
         login,
         register,
+        forgotPassword,
+        resetPassword,
         logout,
         toggleTheme
       }}

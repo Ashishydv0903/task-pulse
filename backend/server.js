@@ -32,9 +32,10 @@ app.get('/', (req, res) => {
   });
 });
 
-// Mount Routes
+// Mount Routes (supports both /api/ prefix and root paths for flexible deployment)
 app.use('/api/auth', authRoutes);
 app.use('/auth', authRoutes);
+
 app.use('/api/tasks', taskRoutes);
 app.use('/tasks', taskRoutes);
 
