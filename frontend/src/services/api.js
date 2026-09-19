@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://task-pulse-backend-848q.onrender.com',
   headers: {
     'Content-Type': 'application/json'
   }
